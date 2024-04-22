@@ -1,6 +1,7 @@
 import styles from './MainPage.module.css';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function MainPage() {
     const [pokemon, setPokemon] = useState([]);
@@ -56,12 +57,12 @@ function MainPage() {
                                 </h3>
                                 <p className={styles.cardHoverText}>Weight: {item.weight}</p>
                                 <p className="card-hover__text">Type: {item.types.map(type => type.type.name).join(', ')}</p>
-                                <a href="#" className={styles.cardHoverLink}>
+                                <Link to={'/pokemon/' + item.id} className={styles.cardHoverLink}>
                                     <span>Learn More</span>
                                     <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                                     </svg>
-                                </a>
+                                </Link>
                             </div>
                             <div className={styles.cardHoverExtra}>
                                 <h4>Additional Info</h4>
