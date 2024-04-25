@@ -1,7 +1,13 @@
+/* PokemonPage.module.css */
+
 .container {
     text-align: center;
     position: relative;
     color: #fff;
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 .backBg::before {
@@ -13,20 +19,14 @@
     height: 105px;
     width: 115px;
     border-radius: 20px;
-    background: rgb(255, 255, 255);
-    background: linear-gradient(145deg,
-            rgba(255, 255, 255, 0.4) 0%,
-            rgba(255, 255, 255, 0.1) 100%);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
 }
 
 .pokemonBg {
     position: absolute;
     z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: auto;
-    height: 90%;
+    height: 100%;
     bottom: 0;
 }
 
@@ -49,35 +49,40 @@
 }
 
 .title {
-    font-size: 24px;
+    font-size: 32px;
     margin-bottom: 16px;
-    color: #333;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #f29b9b, #8f94fb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .image {
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease-in-out;
 }
 
 .image:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .pokeDetails {
-    width: 100%;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     color: #333;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
-    padding: 32px 24px;
+    padding: 32px;
+    margin-top: -40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .subtitle {
-    font-size: 20px;
-    margin-bottom: 8px;
+    font-size: 24px;
+    margin-bottom: 16px;
     color: #555;
 }
 
@@ -90,21 +95,39 @@
 .type {
     display: inline-block;
     margin-right: 8px;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 4px 12px;
+    border-radius: 20px;
     background-color: #f0f0f0;
-    color: #777;
+    color: #555;
+    transition: transform 0.3s ease-in-out;
+}
+
+.type:hover {
+    transform: translateY(-2px);
 }
 
 .stat {
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     color: #777;
+}
+
+.statBar {
+    height: 10px;
+    background-color: #4CAF50;
+    /* Green */
+}
+
+.statName {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.statValue {
+    margin-right: 10px;
 }
 
 @media (min-width: 768px) {
     .container {
-        width: 40%;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        margin: 0 auto;
+        width: 60%;
     }
 }

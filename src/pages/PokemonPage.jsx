@@ -1,3 +1,5 @@
+// PokemonPage.jsx
+
 import styles from './PokemonPage.module.css';
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
@@ -41,7 +43,11 @@ function PokemonPage() {
                     <h2 className={styles.subtitle}>Stats:</h2>
                     <ul className={styles.statsList}>
                         {pokemon.stats?.map((stat, index) => (
-                            <li key={index} className={styles.stat}>{stat.stat.name}: {stat.base_stat}</li>
+                            <li key={index} className={styles.stat}>
+                                <span className={styles.statName}>{stat.stat.name}:</span>
+                                <span className={styles.statValue}>{stat.base_stat}</span>
+                                <div className={styles.statBar} style={{ width: `${stat.base_stat}%` }}></div>
+                            </li>
                         ))}
                     </ul>
                 </div>
