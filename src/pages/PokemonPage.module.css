@@ -1,3 +1,5 @@
+/* PokemonPage.module.css */
+
 .container {
     text-align: center;
     position: relative;
@@ -6,7 +8,10 @@
     border-radius: 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     padding: 20px;
+<<<<<<< HEAD
     overflow: hidden;
+=======
+>>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
 }
 
 .backBg::before {
@@ -29,6 +34,37 @@
     bottom: 0;
 }
 
+<<<<<<< HEAD
+=======
+.pokemonBg.rotar {
+    animation-name: girar;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    opacity: 0.12;
+}
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.title {
+    font-size: 32px;
+    margin-bottom: 16px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #f29b9b, #8f94fb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+>>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
 .image {
     width: 200px;
     height: 200px;
@@ -49,6 +85,7 @@
     padding: 32px;
     margin-top: -40px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+<<<<<<< HEAD
     transition: box-shadow 0.3s ease-in-out;
 }
 
@@ -69,6 +106,13 @@
 .subtitle {
     font-size: 1.8rem;
     margin-bottom: 1rem;
+=======
+}
+
+.subtitle {
+    font-size: 24px;
+    margin-bottom: 16px;
+>>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
     color: #555;
 }
 
@@ -80,8 +124,13 @@
 
 .type {
     display: inline-block;
+<<<<<<< HEAD
     margin-right: 0.5rem;
     padding: 0.5rem 1rem;
+=======
+    margin-right: 8px;
+    padding: 4px 12px;
+>>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
     border-radius: 20px;
     background-color: #f0f0f0;
     color: #555;
@@ -93,12 +142,17 @@
 }
 
 .stat {
+<<<<<<< HEAD
     margin-bottom: 1rem;
+=======
+    margin-bottom: 8px;
+>>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
     color: #777;
 }
 
 .statBar {
     height: 10px;
+<<<<<<< HEAD
     width: 0;
     transition: width 1s ease-out, background-color 1s ease-out;
 }
@@ -173,4 +227,23 @@
 
 .fairyColor {
     background-color: var(--fairy-color);
+=======
+    background-color: #4CAF50;
+    /* Green */
+}
+
+.statName {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.statValue {
+    margin-right: 10px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 60%;
+    }
+>>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
 }

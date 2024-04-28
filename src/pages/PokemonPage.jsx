@@ -1,3 +1,5 @@
+// PokemonPage.jsx
+
 import styles from './PokemonPage.module.css';
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
@@ -58,7 +60,11 @@ function PokemonPage() {
                             <li key={index} className={styles.stat}>
                                 <span className={styles.statName}>{stat.stat.name}:</span>
                                 <span className={styles.statValue}>{stat.base_stat}</span>
+<<<<<<< HEAD
                                 <div className={styles.statBar} style={{ width: `${stat.base_stat}%`, backgroundColor: getTypeColor(pokemon.types[0].type.name) }}></div>
+=======
+                                <div className={styles.statBar} style={{ width: `${stat.base_stat}%` }}></div>
+>>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
                             </li>
                         ))}
                     </ul>
@@ -68,6 +74,7 @@ function PokemonPage() {
     )
 }
 
+<<<<<<< HEAD
 function getTypeColor(type) {
     switch (type) {
         case 'normal':
@@ -112,3 +119,6 @@ function getTypeColor(type) {
 }
 
 export default PokemonPage;
+=======
+export default PokemonPage
+>>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
