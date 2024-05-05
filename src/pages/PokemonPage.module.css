@@ -1,17 +1,14 @@
-/* PokemonPage.module.css */
-
 .container {
     text-align: center;
     position: relative;
     color: #fff;
-    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    background: linear-gradient(135deg, #667db6, #0082c8, #0082c8, #667db6);
     border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     padding: 20px;
-<<<<<<< HEAD
     overflow: hidden;
-=======
->>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
+    transition: transform 0.3s ease-in-out, perspective 1s ease-in-out;
+    perspective: 1000px;
 }
 
 .backBg::before {
@@ -34,8 +31,6 @@
     bottom: 0;
 }
 
-<<<<<<< HEAD
-=======
 .pokemonBg.rotar {
     animation-name: girar;
     animation-duration: 3s;
@@ -62,15 +57,15 @@
     background: linear-gradient(135deg, #f29b9b, #8f94fb);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    transition: transform 0.3s ease-in-out, perspective 1s ease-in-out;
 }
 
->>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
 .image {
     width: 200px;
     height: 200px;
     border-radius: 50%;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, perspective 1s ease-in-out;
 }
 
 .image:hover {
@@ -78,41 +73,23 @@
 }
 
 .pokeDetails {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.95);
     color: #333;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     padding: 32px;
     margin-top: -40px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-<<<<<<< HEAD
-    transition: box-shadow 0.3s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out, perspective 1s ease-in-out;
 }
 
 .pokeDetails:hover {
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
 }
 
-.title {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-    background: linear-gradient(135deg, #f29b9b, #8f94fb);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.subtitle {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-=======
-}
-
 .subtitle {
     font-size: 24px;
     margin-bottom: 16px;
->>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
     color: #555;
 }
 
@@ -124,17 +101,14 @@
 
 .type {
     display: inline-block;
-<<<<<<< HEAD
     margin-right: 0.5rem;
     padding: 0.5rem 1rem;
-=======
     margin-right: 8px;
     padding: 4px 12px;
->>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
     border-radius: 20px;
     background-color: #f0f0f0;
     color: #555;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, perspective 1s ease-in-out;
 }
 
 .type:hover {
@@ -142,94 +116,15 @@
 }
 
 .stat {
-<<<<<<< HEAD
     margin-bottom: 1rem;
-=======
     margin-bottom: 8px;
->>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
     color: #777;
 }
 
 .statBar {
     height: 10px;
-<<<<<<< HEAD
     width: 0;
     transition: width 1s ease-out, background-color 1s ease-out;
-}
-
-.normalColor {
-    background-color: var(--normal-color);
-}
-
-.fireColor {
-    background-color: var(--fire-color);
-}
-
-.waterColor {
-    background-color: var(--water-color);
-}
-
-.electricColor {
-    background-color: var(--electric-color);
-}
-
-.grassColor {
-    background-color: var(--grass-color);
-}
-
-.iceColor {
-    background-color: var(--ice-color);
-}
-
-.fightingColor {
-    background-color: var(--fighting-color);
-}
-
-.poisonColor {
-    background-color: var(--poison-color);
-}
-
-.groundColor {
-    background-color: var(--ground-color);
-}
-
-.flyingColor {
-    background-color: var(--flying-color);
-}
-
-.psychicColor {
-    background-color: var(--psychic-color);
-}
-
-.bugColor {
-    background-color: var(--bug-color);
-}
-
-.rockColor {
-    background-color: var(--rock-color);
-}
-
-.ghostColor {
-    background-color: var(--ghost-color);
-}
-
-.dragonColor {
-    background-color: var(--dragon-color);
-}
-
-.darkColor {
-    background-color: var(--dark-color);
-}
-
-.steelColor {
-    background-color: var(--steel-color);
-}
-
-.fairyColor {
-    background-color: var(--fairy-color);
-=======
-    background-color: #4CAF50;
-    /* Green */
 }
 
 .statName {
@@ -241,9 +136,31 @@
     margin-right: 10px;
 }
 
-@media (min-width: 768px) {
-    .container {
-        width: 60%;
-    }
->>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
+.evolution {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out, perspective 1s ease-in-out;
+}
+
+.evolution:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+.evolutionImages {
+    display: flex;
+    justify-content: center;
+}
+
+.evolutionImage {
+    width: 100px;
+    margin: 0 5px;
+}
+
+.arrow {
+    color: #333;
+    font-size: 24px;
+    margin-top: 20px;
 }

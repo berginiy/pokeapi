@@ -1,44 +1,77 @@
-// PokemonPage.jsx
-
-import styles from './PokemonPage.module.css';
-import { useParams } from "react-router-dom"
-import { useState, useEffect } from "react"
-import axios from "axios"
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import styles from "./PokemonPage.module.css";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 function PokemonPage() {
-    const { idpokemon } = useParams()
-    const [pokemon, setPokemon] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const { idpokemon } = useParams();
+    const [pokemon, setPokemon] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [evolutionChain, setEvolutionChain] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
             try {
-                setLoading(true)
-                const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${idpokemon}`);
-                setPokemon(res.data)
+                setLoading(true);
+                const res = await axios.get(
+                    `https://pokeapi.co/api/v2/pokemon/${idpokemon}`
+                );
+                setPokemon(res.data);
+
+                // Fetch evolution chain
+                const evolutionRes = await axios.get(res.data.species.url);
+                const evolutionChainRes = await axios.get(evolutionRes.data.evolution_chain.url);
+                const chain = parseEvolutionChain(evolutionChainRes.data.chain);
+                setEvolutionChain(chain);
             } catch (error) {
-                console.error("Error fetching Pokémon data:", error)
+                console.error("Error fetching Pokémon data:", error);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
         }
 
         fetchData();
-    }, [idpokemon])
+    }, [idpokemon]);
+
+    const parseEvolutionChain = (chain) => {
+        const evolutionChain = [];
+        let current = chain;
+
+        do {
+            evolutionChain.push({
+                id: current.species.url.split("/")[6],
+                name: current.species.name,
+                image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${current.species.url.split("/")[6]}.png`
+            });
+            current = current.evolves_to[0];
+        } while (current && current.hasOwnProperty("evolves_to"));
+
+        return evolutionChain;
+    };
+
+    const handleEvolutionClick = (id) => {
+        // Redirect to the clicked Pokémon
+        window.location.href = `/pokemon/${id}`;
+    };
 
     if (loading) {
-        return <div>Loading...</div>
+        return <div>Loading...</div>;
     }
 
     if (!pokemon) {
-        return <div>Pokémon not found</div>
+        return <div>Pokémon not found</div>;
     }
 
     return (
         <div className={styles.container}>
             <div className={styles.backBg}></div>
             <div className={styles.pokemonBg}>
-                <img className={styles.image} src={pokemon?.sprites?.other['official-artwork']?.front_default} alt="" />
+                <img
+                    className={styles.image}
+                    src={pokemon.sprites?.other["official-artwork"]?.front_default}
+                    alt=""
+                />
             </div>
 
             <div className={styles.pokeDetails}>
@@ -48,7 +81,9 @@ function PokemonPage() {
                     <h2 className={styles.subtitle}>Type:</h2>
                     <ul className={styles.typeList}>
                         {pokemon.types?.map((type, index) => (
-                            <li key={index} className={styles.type}>{type.type.name}</li>
+                            <li key={index} className={styles.type}>
+                                {type.type.name}
+                            </li>
                         ))}
                     </ul>
                 </div>
@@ -60,65 +95,86 @@ function PokemonPage() {
                             <li key={index} className={styles.stat}>
                                 <span className={styles.statName}>{stat.stat.name}:</span>
                                 <span className={styles.statValue}>{stat.base_stat}</span>
-<<<<<<< HEAD
-                                <div className={styles.statBar} style={{ width: `${stat.base_stat}%`, backgroundColor: getTypeColor(pokemon.types[0].type.name) }}></div>
-=======
-                                <div className={styles.statBar} style={{ width: `${stat.base_stat}%` }}></div>
->>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0
+                                <div
+                                    className={styles.statBar}
+                                    style={{
+                                        width: `${stat.base_stat}%`,
+                                        backgroundColor: getTypeColor(pokemon.types[0].type.name),
+                                    }}
+                                ></div>
+                                <div
+                                    className={styles.statBar}
+                                    style={{ width: `${stat.base_stat}%` }}
+                                ></div>
                             </li>
                         ))}
                     </ul>
                 </div>
             </div>
+
+            <div className={styles.evolution}>
+                <h2 className={styles.subtitle}>Evolution:</h2>
+                <div className={styles.evolutionImages}>
+                    {evolutionChain.map((evolution, index) => (
+                        <>
+                            {index > 0 && <FaArrowLeft className={styles.arrow} />}
+                            <img
+                                key={index}
+                                className={styles.evolutionImage}
+                                src={evolution.image}
+                                alt={`Evolution ${index + 1}`}
+                                onClick={() => handleEvolutionClick(evolution.id)}
+                            />
+                            {index < evolutionChain.length - 1 && <FaArrowRight className={styles.arrow} />}
+                        </>
+                    ))}
+                </div>
+            </div>
         </div>
-    )
+    );
 }
 
-<<<<<<< HEAD
 function getTypeColor(type) {
     switch (type) {
-        case 'normal':
-            return '#A8A77A';
-        case 'fire':
-            return '#EE8130';
-        case 'water':
-            return '#6390F0';
-        case 'electric':
-            return '#F7D02C';
-        case 'grass':
-            return '#7AC74C';
-        case 'ice':
-            return '#96D9D6';
-        case 'fighting':
-            return '#C22E28';
-        case 'poison':
-            return '#A33EA1';
-        case 'ground':
-            return '#E2BF65';
-        case 'flying':
-            return '#A98FF3';
-        case 'psychic':
-            return '#F95587';
-        case 'bug':
-            return '#A6B91A';
-        case 'rock':
-            return '#B6A136';
-        case 'ghost':
-            return '#735797';
-        case 'dragon':
-            return '#6F35FC';
-        case 'dark':
-            return '#705746';
-        case 'steel':
-            return '#B7B7CE';
-        case 'fairy':
-            return '#D685AD';
+        case "normal":
+            return "#A8A77A";
+        case "fire":
+            return "#EE8130";
+        case "water":
+            return "#6390F0";
+        case "electric":
+            return "#F7D02C";
+        case "grass":
+            return "#7AC74C";
+        case "ice":
+            return "#96D9D6";
+        case "fighting":
+            return "#C22E28";
+        case "poison":
+            return "#A33EA1";
+        case "ground":
+            return "#E2BF65";
+        case "flying":
+            return "#A98FF3";
+        case "psychic":
+            return "#F95587";
+        case "bug":
+            return "#A6B91A";
+        case "rock":
+            return "#B6A136";
+        case "ghost":
+            return "#735797";
+        case "dragon":  
+            return "#6F35FC";
+        case "dark":
+            return "#705746";
+        case "steel":
+            return "#B7B7CE";
+        case "fairy":
+            return "#D685AD";
         default:
-            return ''; // Default color
+            return "";
     }
 }
 
 export default PokemonPage;
-=======
-export default PokemonPage
->>>>>>> a8dfa7f0b6278dd2f02ae19fce78f539710631b0

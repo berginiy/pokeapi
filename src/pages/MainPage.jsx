@@ -7,7 +7,7 @@ function MainPage() {
     const [pokemon, setPokemon] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
-    const [nextPage, setNextPage] = useState('https://pokeapi.co/api/v2/pokemon/?limit=10');
+    const [nextPage, setNextPage] = useState('https://pokeapi.co/api/v2/pokemon/?limit=20');
 
     useEffect(() => {
         fetchData();
@@ -56,7 +56,9 @@ function MainPage() {
                                     {item.name}
                                 </h3>
                                 <p className={styles.cardHoverText}>Weight: {item.weight}</p>
-                                <p className="card-hover__text">Type: {item.types.map(type => type.type.name).join(', ')}</p>
+                                <p className={styles.cardHoverText}>Type: {item.types.map(type => 
+                                    <span key={type.type.name} className={styles.type}>{type.type.name}</span>
+                                )}</p>
                                 <Link to={'/pokemon/' + item.id} className={styles.cardHoverLink}>
                                     <span>Learn More</span>
                                     <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
