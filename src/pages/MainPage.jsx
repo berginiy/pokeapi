@@ -46,24 +46,14 @@ function MainPage() {
         setSearchQuery(event.target.value);
     };
 
-    const handleSearchSubmit = async (event) => {
-        event.preventDefault();
-        setLoading(true);
-        try {
-            const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${searchQuery.toLowerCase()}`);
-            setPokemon([res.data]);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching Pokemon data:', error);
-            setPokemon([]); // Очищаем результаты поиска, если ничего не найдено
-            setLoading(false);
-        }
-    };
+    const filteredPokemon = pokemon.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <div className={styles.list}>
             {/* Форма для поиска */}
-            <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+            <form onSubmit={e => e.preventDefault()} className={styles.searchForm}>
                 <input
                     type="text"
                     value={searchQuery}
@@ -71,15 +61,14 @@ function MainPage() {
                     placeholder="Enter Pokemon name"
                     className={styles.searchInput}
                 />
-                <button type="submit" className={styles.searchButton}>Search</button>
             </form>
 
             {/* Список покемонов */}
             <ul className={styles.cards}>
                 {loading ? (
                     <div>Loading...</div>
-                ) : pokemon.length > 0 ? (
-                    pokemon.map((item, index) => (
+                ) : filteredPokemon.length > 0 ? (
+                    filteredPokemon.map((item, index) => (
                         <li key={index} className={styles.card}>
                             {/* Карточка покемона */}
                             <div className={styles.cardHover}>

@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import styles from "./PokemonPage.module.css";
+import { useParams, Link } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import styles from "./PokemonPage.module.css";
 
 function PokemonPage() {
     const { idpokemon } = useParams();
@@ -14,12 +14,9 @@ function PokemonPage() {
         async function fetchData() {
             try {
                 setLoading(true);
-                const res = await axios.get(
-                    `https://pokeapi.co/api/v2/pokemon/${idpokemon}`
-                );
+                const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${idpokemon}`);
                 setPokemon(res.data);
 
-                // Fetch evolution chain
                 const evolutionRes = await axios.get(res.data.species.url);
                 const evolutionChainRes = await axios.get(evolutionRes.data.evolution_chain.url);
                 const chain = parseEvolutionChain(evolutionChainRes.data.chain);
@@ -42,7 +39,7 @@ function PokemonPage() {
             evolutionChain.push({
                 id: current.species.url.split("/")[6],
                 name: current.species.name,
-                image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${current.species.url.split("/")[6]}.png`
+                image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${current.species.url.split("/")[6]}.png`,
             });
             current = current.evolves_to[0];
         } while (current && current.hasOwnProperty("evolves_to"));
@@ -51,7 +48,6 @@ function PokemonPage() {
     };
 
     const handleEvolutionClick = (id) => {
-        // Redirect to the clicked Pokémon
         window.location.href = `/pokemon/${id}`;
     };
 
@@ -130,6 +126,10 @@ function PokemonPage() {
                     ))}
                 </div>
             </div>
+
+            <Link to="/" className={styles.backButton}>
+                <FaArrowLeft /> Back
+            </Link>
         </div>
     );
 }
@@ -164,7 +164,7 @@ function getTypeColor(type) {
             return "#B6A136";
         case "ghost":
             return "#735797";
-        case "dragon":  
+        case "dragon":
             return "#6F35FC";
         case "dark":
             return "#705746";
