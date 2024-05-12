@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import styles from "./PokemonPage.module.css";
 
 function PokemonPage() {
@@ -112,17 +112,14 @@ function PokemonPage() {
                 <h2 className={styles.subtitle}>Evolution:</h2>
                 <div className={styles.evolutionImages}>
                     {evolutionChain.map((evolution, index) => (
-                        <>
-                            {index > 0 && <FaArrowLeft className={styles.arrow} />}
+                        <React.Fragment key={index}>
                             <img
-                                key={index}
                                 className={styles.evolutionImage}
                                 src={evolution.image}
                                 alt={`Evolution ${index + 1}`}
                                 onClick={() => handleEvolutionClick(evolution.id)}
                             />
-                            {index < evolutionChain.length - 1 && <FaArrowRight className={styles.arrow} />}
-                        </>
+                        </React.Fragment>
                     ))}
                 </div>
             </div>

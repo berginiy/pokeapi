@@ -242,3 +242,45 @@
 .searchButton:hover {
     background-color: #6aa35b;
 }
+
+/* Добавленные стили */
+.typeButton {
+    background-color: #86B971;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.typeButton:hover {
+    background-color: #6aa35b;
+}
+
+.searchForm {
+    margin-bottom: 1rem;
+}
+
+.searchInput {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+}
+
+.searchButton {
+    padding: 0.5rem 1rem;
+    background-color: #86B971;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.searchButton:hover {
+    background-color: #6aa35b;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './MainPage.module.css';
@@ -9,12 +9,9 @@ function MainPage() {
     const [loadingMore, setLoadingMore] = useState(false);
     const [nextPage, setNextPage] = useState('https://pokeapi.co/api/v2/pokemon/?limit=20');
     const [searchQuery, setSearchQuery] = useState('');
+    const [types, setTypes] = useState([]);
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
+    const fetchData = useMemo(() => async () => {
         try {
             if (loadingMore) return;
             setLoadingMore(true);
@@ -36,7 +33,21 @@ function MainPage() {
             setLoading(false);
             setLoadingMore(false);
         }
-    };
+    }, [loadingMore, nextPage]);
+
+    const fetchTypes = useMemo(() => async () => {
+        try {
+            const res = await axios.get('https://pokeapi.co/api/v2/type');
+            setTypes(res.data.results.filter(type => type.name !== "unknown")); // Исключаем тип "unknown"
+        } catch (error) {
+            console.error('Error fetching Pokemon types:', error);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+        fetchTypes();
+    }, [fetchData, fetchTypes]);
 
     const handleLoadMore = () => {
         fetchData();
@@ -46,13 +57,43 @@ function MainPage() {
         setSearchQuery(event.target.value);
     };
 
+    const handleFilterByType = async (type) => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`https://pokeapi.co/api/v2/type/${type}`);
+            const pokemonsOfType = await Promise.all(res.data.pokemon.map(async (pokemon) => {
+                const pokemonRes = await axios.get(pokemon.pokemon.url);
+                return pokemonRes.data;
+            }));
+            setPokemon(pokemonsOfType);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error filtering Pokemon by type:', error);
+            setLoading(false);
+        }
+    };
+
+    const handleResetFilters = () => {
+        setSearchQuery('');
+        setPokemon([]);
+        setNextPage('https://pokeapi.co/api/v2/pokemon/?limit=20');
+        fetchData(); // При сбросе фильтров также загружаем первую страницу покемонов
+    };
+
     const filteredPokemon = pokemon.filter(item =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
         <div className={styles.list}>
-            {/* Форма для поиска */}
+            <div>
+                {/* Добавляем кнопки для каждого типа */}
+                {types.map((type, index) => (
+                    <button key={index} onClick={() => handleFilterByType(type.name)} className={styles.typeButton}>{type.name}</button>
+                ))}
+                <button onClick={handleResetFilters} className={styles.resetButton}>Reset Filters</button>
+            </div>
+
             <form onSubmit={e => e.preventDefault()} className={styles.searchForm}>
                 <input
                     type="text"
@@ -63,14 +104,12 @@ function MainPage() {
                 />
             </form>
 
-            {/* Список покемонов */}
             <ul className={styles.cards}>
                 {loading ? (
                     <div>Loading...</div>
                 ) : filteredPokemon.length > 0 ? (
                     filteredPokemon.map((item, index) => (
                         <li key={index} className={styles.card}>
-                            {/* Карточка покемона */}
                             <div className={styles.cardHover}>
                                 <div className={styles.cardHoverContent}>
                                     <h3 className={styles.cardHoverTitle}>
@@ -100,7 +139,6 @@ function MainPage() {
                 )}
             </ul>
 
-            {/* Кнопка "Загрузить еще" */}
             {nextPage && (
                 <button onClick={handleLoadMore} className={styles.loadMoreButton}>
                     Load More
