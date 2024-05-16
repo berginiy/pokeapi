@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './MainPage.module.css';
@@ -6,15 +6,23 @@ import styles from './MainPage.module.css';
 function MainPage() {
     const [pokemon, setPokemon] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [loadingMore, setLoadingMore] = useState(false);
     const [nextPage, setNextPage] = useState('https://pokeapi.co/api/v2/pokemon/?limit=20');
     const [searchQuery, setSearchQuery] = useState('');
     const [types, setTypes] = useState([]);
+    const [loadingPoke, setLoadingPoke] = useState(false);
 
-    const fetchData = useMemo(() => async () => {
+    function removeDuplicates(array, key) {
+        let seen = {};
+        return array.filter(item => {
+            let value = item[key];
+            return seen.hasOwnProperty(value) ? false : (seen[value] = true);
+        });
+    }
+
+    const fetchData = async () => {
         try {
-            if (loadingMore) return;
-            setLoadingMore(true);
+            setLoading(true);
+            setLoadingPoke(true);
 
             const res = await axios.get(nextPage);
 
@@ -23,31 +31,33 @@ function MainPage() {
                     const pokemonRes = await axios.get(item.url);
                     return pokemonRes.data;
                 }));
-                setPokemon(prevPokemon => [...prevPokemon, ...pokemonsData]);
+                const allPokemon = removeDuplicates([...pokemon, ...pokemonsData], 'id');
+                setPokemon(allPokemon);
                 setNextPage(res.data.next);
             }
+
             setLoading(false);
-            setLoadingMore(false);
+            setLoadingPoke(false);
         } catch (error) {
             console.error('Error fetching Pokemon data:', error);
             setLoading(false);
-            setLoadingMore(false);
+            setLoadingPoke(false);
         }
-    }, [loadingMore, nextPage]);
+    };
 
-    const fetchTypes = useMemo(() => async () => {
+    const fetchTypes = async () => {
         try {
             const res = await axios.get('https://pokeapi.co/api/v2/type');
-            setTypes(res.data.results.filter(type => type.name !== "unknown")); // Исключаем тип "unknown"
+            setTypes(res.data.results.filter(type => type.name !== "unknown"));
         } catch (error) {
             console.error('Error fetching Pokemon types:', error);
         }
-    }, []);
+    };
 
     useEffect(() => {
         fetchData();
         fetchTypes();
-    }, [fetchData, fetchTypes]);
+    }, []); // Загрузка данных происходит только при монтировании
 
     const handleLoadMore = () => {
         fetchData();
@@ -60,6 +70,8 @@ function MainPage() {
     const handleFilterByType = async (type) => {
         try {
             setLoading(true);
+            setLoadingPoke(true);
+
             const res = await axios.get(`https://pokeapi.co/api/v2/type/${type}`);
             const pokemonsOfType = await Promise.all(res.data.pokemon.map(async (pokemon) => {
                 const pokemonRes = await axios.get(pokemon.pokemon.url);
@@ -67,17 +79,34 @@ function MainPage() {
             }));
             setPokemon(pokemonsOfType);
             setLoading(false);
+            setLoadingPoke(false);
         } catch (error) {
             console.error('Error filtering Pokemon by type:', error);
             setLoading(false);
+            setLoadingPoke(false);
         }
     };
 
-    const handleResetFilters = () => {
+    const handleResetFilters = async () => {
         setSearchQuery('');
         setPokemon([]);
+        setLoading(true);
+        setLoadingPoke(true);
         setNextPage('https://pokeapi.co/api/v2/pokemon/?limit=20');
-        fetchData(); // При сбросе фильтров также загружаем первую страницу покемонов
+        try {
+            const res = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=20');
+            const pokemonsData = await Promise.all(res.data.results.map(async (item) => {
+                const pokemonRes = await axios.get(item.url);
+                return pokemonRes.data;
+            }));
+            setPokemon(pokemonsData);
+            setLoading(false);
+            setLoadingPoke(false);
+        } catch (error) {
+            console.error('Error fetching Pokemon data:', error);
+            setLoading(false);
+            setLoadingPoke(false);
+        }
     };
 
     const filteredPokemon = pokemon.filter(item =>
@@ -139,11 +168,9 @@ function MainPage() {
                 )}
             </ul>
 
-            {nextPage && (
-                <button onClick={handleLoadMore} className={styles.loadMoreButton}>
-                    Load More
-                </button>
-            )}
+            <button onClick={handleLoadMore} className={styles.loadMoreButton}>
+                Load More
+            </button>
         </div>
     );
 }

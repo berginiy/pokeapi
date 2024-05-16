@@ -117,9 +117,11 @@
 
 .stat {
     margin-bottom: 1rem;
-    margin-bottom: 8px;
     color: #777;
+    position: relative;
+    padding-bottom: 20px;
 }
+
 
 .statBar {
     height: 10px;
@@ -129,6 +131,39 @@
     background-color: #ccc;
     margin-top: 5px;
     animation: progressAnimation 1s ease-out forwards;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.stat:last-child {
+    margin-bottom: 0;
+}
+
+.statsList {
+    padding: 0;
+    margin: 0;
+}
+
+.statName {
+    display: inline-block;
+    width: 90px;
+    text-align: right;
+    margin-right: 10px;
+    color: #555;
+}
+
+.statValue {
+    display: inline-block;
+    width: 30px;
+    margin-right: 10px;
+    color: #555;
+}
+
+.statsList {
+    list-style: none;
+    padding: 1rem 0;
+    margin: 0;
 }
 
 @keyframes progressAnimation {
@@ -189,4 +224,49 @@
 .backButton:hover {
     background-color: #f0f0f0;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    .backBg::before {
+        height: 70px;
+        width: 75px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .pokeDetails {
+        padding: 16px;
+    }
+
+    .subtitle {
+        font-size: 20px;
+    }
+
+    .type,
+    .stat {
+        font-size: 14px;
+    }
+
+    .evolution {
+        padding: 10px;
+    }
+
+    .evolutionImage {
+        width: 80px;
+    }
+
+    .backButton {
+        font-size: 14px;
+    }
 }
